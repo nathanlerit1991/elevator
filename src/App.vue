@@ -31,15 +31,17 @@
       </div>
 
       <div id="status">
-        <h2 v-if="closing">Closing for {{ timer }} seconds</h2>
-        <h2 v-if="opening">Opening for {{ timer }} seconds</h2>
-        <h2 v-if="loadingUnlaoding">Loading / Unloading for {{ timer }} seconds</h2>
         <div>
           <h2>Going Down</h2>
-          <p v-html="elevMove ? 'Next Floor ' + goDown : 'Pending'" />
+          <p v-html="elevMove || closing  ? 'Next Floor ' + goDown : 'Pending'" />
 
           <h2>Going Up</h2>
-          <p v-html="elevMove ? 'Next Floor ' + goUp : 'Pending'" />
+          <p v-html="elevMove || closing ? 'Next Floor ' + goUp : 'Pending'" />
+        </div>
+        <div class="message">
+          <p v-if="closing">Closing for {{ timer }} seconds</p>
+          <p v-if="opening">Opening for {{ timer }} seconds</p>
+          <p v-if="loadingUnlaoding">Loading / Unloading for {{ timer }} seconds</p>
         </div>
       </div>
     </div>
@@ -200,7 +202,6 @@ export default {
             console.log('open')
           }, interval * (increment + 2))
 
-       
           increment = increment + 3
         }
       })
@@ -210,7 +211,6 @@ export default {
     randomPeopleFn() {
        this.firstRandomPeople = Math.floor(Math.random() * 5) + 1
        this.secondRandomPeople = Math.floor(Math.random() * 5) + 1
-       console.log('TRUE')
     },
   }
 }
