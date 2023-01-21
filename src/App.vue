@@ -31,10 +31,16 @@
       </div>
 
       <div id="status">
-        <h2 v-if="elevMove">Elevator moving for {{ timer }} seconds</h2>
-        <h2 v-if="loadingUnlaoding">Loading / Unloading for {{ timer }} seconds</h2>
         <h2 v-if="closing">Closing for {{ timer }} seconds</h2>
         <h2 v-if="opening">Opening for {{ timer }} seconds</h2>
+        <h2 v-if="loadingUnlaoding">Loading / Unloading for {{ timer }} seconds</h2>
+        <div>
+          <h2>Going Down</h2>
+          <p v-html="elevMove ? 'Next Floor ' + goDown : 'Pending'" />
+
+          <h2>Going Up</h2>
+          <p v-html="elevMove ? 'Next Floor ' + goUp : 'Pending'" />
+        </div>
       </div>
     </div>
   </div>
@@ -52,7 +58,9 @@ export default {
       closing: false,
       opening: false,
       timer: 10,
-      interval: null
+      interval: null,
+      goDown: null,
+      goUp: null
     }
   },
   mounted() {
@@ -65,7 +73,7 @@ export default {
     //Created 2 computed properties to create 2 random array results
     //The result will loop in methods
     randomFirstElevator () {
-      let random = Array.from({length: 10}, () => Math.floor(Math.random() * 10) + 1)
+      let random = Array.from({length: 10}, () => Math.floor(Math.random() * 10) + 0)
       let noRepeat = []
       random.forEach(element => {
         if(!noRepeat.includes(element)) {
@@ -81,7 +89,7 @@ export default {
     //Created 2 computed properties to create 2 random array results
     //The result will loop in methods
     randomSecondElevator () {
-      let random = Array.from({length: 10}, () => Math.floor(Math.random() * 10) + 1)
+      let random = Array.from({length: 10}, () => Math.floor(Math.random() * 10) + 0)
       let noRepeat = []
       random.forEach(element => {
         if(!noRepeat.includes(element)) {
@@ -113,20 +121,21 @@ export default {
       let _this = this
  
       this.randomFirstElevator.forEach(function(el) {
-        if (el < 10) {
+        if (el !== 0) {
           //Close Doors for 10 seconds
           let closeFn = setTimeout(function() {
             elev1.classList.add('active')
             _this.loadingUnlaoding = false
             _this.opening = false
             _this.closing = true
+            _this.goDown = _this.floors[el]
             clearTimeout(closeFn)
             console.log('close')
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
           let moveFn = setTimeout(function() {
-            elev1.style.top = el * 74 + 'px'
+            elev1.style.top = el * 66 + 'px'
             _this.elevMove = true
             _this.closing = false
             _this.loadingUnlaoding = false
@@ -158,20 +167,21 @@ export default {
       let increment = 1
       let _this = this
       this.randomSecondElevator.forEach(function(el) {
-        if (el < 10) {
+        if (el !== 0) {
           //Close Doors for 10 seconds
           let closeFn = setTimeout(function() {
             elev2.classList.add('active')
             _this.loadingUnlaoding = false
             _this.opening = false
             _this.closing = true
+            _this.goUp = el + 1
             clearTimeout(closeFn)
             console.log('close')
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
           let moveFn = setTimeout(function() {
-            elev2.style.bottom = el * 74 + 'px'
+            elev2.style.bottom = el * 66 + 'px'
             _this.elevMove = true
             _this.closing = false
             _this.loadingUnlaoding = false
