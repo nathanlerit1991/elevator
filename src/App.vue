@@ -2,7 +2,7 @@
   <div>
     <div class="wrapper">
       <div id="building">
-        <div class="floor-wrapper">
+        <div id="first_column" class="floor-wrapper">
           <div v-for="i in floors">
             <div class="floors">
               {{ i }}
@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div class="floor-wrapper">
+        <div id="third_column" class="floor-wrapper">
           <div v-for="i in floors">
             <div class="floors">
               {{ i }}
@@ -52,7 +52,7 @@
 export default {
   data () {
     return {
-      floors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].reverse(),
+      floors: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
       firstRandomPeople: 0,
       secondRandomPeople: 0,
       elevMove: false,
@@ -117,6 +117,7 @@ export default {
     //Created 2 functions to create random floor selection
     elevDownFn() {
       let elev1 = document.querySelector('#elev-1')
+      let elem = document.querySelectorAll('#first_column .floors')
 
       let interval = 10000 //  = 10s
       let increment = 1
@@ -132,7 +133,7 @@ export default {
             _this.closing = true
             _this.goDown = _this.floors[el]
             clearTimeout(closeFn)
-            console.log('close')
+            console.log('close1')
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
@@ -141,8 +142,9 @@ export default {
             _this.elevMove = true
             _this.closing = false
             _this.loadingUnlaoding = false
+            elem[el].classList.add('active')
             clearTimeout(moveFn)
-            console.log('move', el)
+            console.log('move1', el)
           }, interval * (increment + 1))
 
           //Open Doors for 10 seconds
@@ -151,9 +153,10 @@ export default {
             _this.elevMove = false
             _this.loadingUnlaoding = true
             _this.opening = true
+            elem[el].classList.remove('active')
             _this.randomPeopleFn()
             clearTimeout(openFn)
-            console.log('open')
+            console.log('open1')
           }, interval * (increment + 2))
   
           increment = increment + 3
@@ -164,12 +167,23 @@ export default {
     //Created 2 functions to create random floor selection
     elevUpFn() {
       let elev2 = document.querySelector('#elev-2')
+      let elem = document.querySelectorAll('#third_column .floors')
+      let elemReverse = []
 
       let interval = 10000 //  = 10s
       let increment = 1
       let _this = this
       this.randomSecondElevator.forEach(function(el) {
+
         if (el !== 0) {
+          // Since NodeList can't reverse, I created an empty array
+          // Push the NodeList into the empty array
+          // Reverse the array
+          elem.forEach(element => {
+            elemReverse.push(element)
+          })
+          elemReverse.reverse()
+
           //Close Doors for 10 seconds
           let closeFn = setTimeout(function() {
             elev2.classList.add('active')
@@ -178,7 +192,7 @@ export default {
             _this.closing = true
             _this.goUp = el + 1
             clearTimeout(closeFn)
-            console.log('close')
+            console.log('close', el)
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
@@ -187,6 +201,7 @@ export default {
             _this.elevMove = true
             _this.closing = false
             _this.loadingUnlaoding = false
+            elemReverse[el].classList.add('active')
             clearTimeout(moveFn)
             console.log('move', el)
           }, interval * (increment + 1))
@@ -197,9 +212,10 @@ export default {
             _this.elevMove = false
             _this.loadingUnlaoding = true
             _this.opening = true
+            elemReverse[el].classList.remove('active')
             _this.randomPeopleFn()
             clearTimeout(openFn)
-            console.log('open')
+            console.log('open', el)
           }, interval * (increment + 2))
 
           increment = increment + 3
