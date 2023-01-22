@@ -133,7 +133,7 @@ export default {
             _this.closing = true
             _this.goDown = _this.floors[el]
             clearTimeout(closeFn)
-            console.log('close1')
+            console.log('close left elevator')
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
@@ -144,7 +144,7 @@ export default {
             _this.loadingUnlaoding = false
             elem[el].classList.add('active')
             clearTimeout(moveFn)
-            console.log('move1', el)
+            console.log('move left elevator', el)
           }, interval * (increment + 1))
 
           //Open Doors for 10 seconds
@@ -156,7 +156,7 @@ export default {
             elem[el].classList.remove('active')
             _this.randomPeopleFn()
             clearTimeout(openFn)
-            console.log('open1')
+            console.log('open left elevator')
           }, interval * (increment + 2))
   
           increment = increment + 3
@@ -192,7 +192,7 @@ export default {
             _this.closing = true
             _this.goUp = el + 1
             clearTimeout(closeFn)
-            console.log('close', el)
+            console.log('close right elevator', el)
           }, interval * increment)
 
           //Move Elevetor for 10 seconds
@@ -203,7 +203,7 @@ export default {
             _this.loadingUnlaoding = false
             elemReverse[el].classList.add('active')
             clearTimeout(moveFn)
-            console.log('move', el)
+            console.log('move right elevator', el)
           }, interval * (increment + 1))
 
           //Open Doors for 10 seconds
@@ -215,7 +215,7 @@ export default {
             elemReverse[el].classList.remove('active')
             _this.randomPeopleFn()
             clearTimeout(openFn)
-            console.log('open', el)
+            console.log('open right elevator', el)
           }, interval * (increment + 2))
 
           increment = increment + 3
