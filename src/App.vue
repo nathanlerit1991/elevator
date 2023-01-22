@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <div id="third_column" class="floor-wrapper">
+        <div id="fourth_column" class="floor-wrapper">
           <div v-for="i in floors">
             <div class="floors">
               {{ i }}
@@ -167,7 +167,7 @@ export default {
     //Created 2 functions to create random floor selection
     elevUpFn() {
       let elev2 = document.querySelector('#elev-2')
-      let elem = document.querySelectorAll('#third_column .floors')
+      let elem = document.querySelectorAll('#fourth_column .floors')
       let elemReverse = []
 
       let interval = 10000 //  = 10s
